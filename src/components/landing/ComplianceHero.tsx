@@ -1,12 +1,12 @@
 import React from "react";
-import { Building2, ChevronRight, FileCheck, Users } from "lucide-react";
+import {ChevronRight} from "lucide-react";
 import Image from "next/image";
 
 export default function ComplianceHero() {
   return (
     <div className="py-16">
       {/* Hero Section */}
-      <div className="container max-w-7xl ml-38 px-1">
+      <div className="container max-w-7xl mx-auto ml-38 px-1">
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* Left Content */}
           <div className="space-y-6">
@@ -31,7 +31,7 @@ export default function ComplianceHero() {
             </div>
             <div className="flex justify-end">
               <button className="bg-black hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg flex items-center px-4 py-2 gap-2">
-                Create Account
+                Watch Demo
                 <span className="bg-white text-black rounded-full w-6 h-6 flex items-center justify-center text-xs">
                   <ChevronRight className="w-4 h-4" />
                 </span>
@@ -41,28 +41,22 @@ export default function ComplianceHero() {
         </div>
 
         {/* Pain Points Section */}
-        <div className="mt-24">
-          <Image
-            src={"/StaticImg.png"}
-            width={150}
-            height={180}
-            alt="Building structure"
-            className="absolute left-0 top-[40%] -translate-y-1/2 opacity-98"
-          />
+      </div>
+      <div className="bg-[#ebfbff] bg-dotted-pattern [background-size:1rem_1rem]">
+        <div className="mt-24 max-w-7xl mx-auto py-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left side: Icons and their labels grouped together */}
+            {/* Left side: Icons */}
             <div className="grid grid-cols-3 gap-6">
-              {/* Item 1: Worker Icon + Label */}
               <div className="flex flex-col items-center text-center gap-4">
                 <div
-                  className="w-42 h-42 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#e5f5f9" }}
+                  className="w-42 h-42 flex items-center justify-center rounded-full bg-white"
+                  
                 >
                   <Image
                     src={"/architect.png"}
-                    width={100}
+                    width={80}
                     height={32}
-                    alt="approved"
+                    alt="Manual drawing checks"
                   />
                 </div>
                 <p className="text-gray-600 font-medium text-sm">
@@ -72,17 +66,15 @@ export default function ComplianceHero() {
                 </p>
               </div>
 
-              {/* Item 2: Code Icon + Label */}
               <div className="flex flex-col items-center text-center gap-4">
                 <div
-                  className="w-42 h-42 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#e5f5f9" }}
+                  className="w-42 h-42 flex items-center justify-center rounded-full bg-white"
                 >
                   <Image
                     src={"/catalogue.png"}
-                    width={100}
+                    width={80}
                     height={32}
-                    alt="approved"
+                    alt="Building codes"
                   />
                 </div>
                 <p className="text-gray-600 font-medium text-sm">
@@ -92,17 +84,15 @@ export default function ComplianceHero() {
                 </p>
               </div>
 
-              {/* Item 3: Approval Icon + Label */}
               <div className="flex flex-col items-center text-center gap-4">
                 <div
-                  className="w-42 h-42 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#e5f5f9" }}
+                  className="w-42 h-42 flex items-center justify-center rounded-full bg-white"
                 >
                   <Image
                     src={"/approved.png"}
-                    width={100}
+                    width={80}
                     height={32}
-                    alt="approved"
+                    alt="Revisions and re-approvals"
                   />
                 </div>
                 <p className="text-gray-600 font-medium text-sm">
@@ -114,13 +104,15 @@ export default function ComplianceHero() {
             </div>
 
             {/* Right side: Problem Statement */}
-            <div className="space-y-2">
-              <h2 className="text-4xl font-extralight text-gray-900">
+            <div className="space-y-2 relative">
+              <h2 className="text-5xl font-extralight text-gray-900">
                 Construction <span className="font-bold">moves slowly.</span>
-                <br />
-                What makes it slower?{" "}
-                <span className="absolute top-[42.25%] left-[54%] translate-x-full ml-2 mt-1 h-8 w-86 bg-[#e5f5f9] -translate-y-1/2"></span>
+                <br />What makes it slower?
               </h2>
+              <span
+                className="absolute top-[62%] -right-4 h-8 w-40 bg-[#e5f5f9] -z-1"
+                style={{ transform: "translateY(-50%)" }}
+              ></span>
             </div>
           </div>
         </div>

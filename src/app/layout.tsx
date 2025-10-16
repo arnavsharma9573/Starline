@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Providers from "./Providers";
+import Providers from "./Providers"; // This already includes your ModalProvider
 
 const seogefont = localFont({
   src: "./fonts/segoeuithis.ttf",
@@ -20,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${seogefont.className} antialiased`}>
+        {/* Providers is the only component needed here */}
         <Providers>{children}</Providers>
       </body>
     </html>

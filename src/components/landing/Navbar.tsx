@@ -6,11 +6,14 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { LogIn, Menu, X } from "lucide-react";
 import WishList from "./WishlistModal";
+import { useModal } from "@/app/Providers";
+
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [wishlistOpen, setWishlistOpen] = useState(false);
+  const { openWishlist } = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isHomePage = pathname === "/";
 
   return (
     <header className="max-w-7xl mx-auto">
@@ -18,17 +21,22 @@ export default function Navbar() {
         {/* Logo */}
         <div className="relative z-50">
           <a href="/" className="flex items-center mt-2">
-            <Image src="/logofinal.png" alt="logo" width={200} height={42} />
+            <Image
+              src={isHomePage ? "/logofinal.png" : "/LogoBlack.png"}
+              alt="logo"
+              width={isHomePage ? 180: 150}
+              height={42}
+            />
           </a>
         </div>
 
         {/* Desktop Navigation - Centered and Sticky */}
-        <nav className="hidden md:flex items-center space-x-8 bg-white/70 backdrop-blur-md px-8 py-4 rounded-full shadow-sm fixed left-1/2 -translate-x-1/2 top-2 z-40">
+        <nav className="hidden md:flex items-center space-x-8 bg-white/70 backdrop-blur-md px-8 py-4 rounded-full shadow-sm fixed left-1/2 -translate-x-1/2 top-1.5 z-40">
           <Link
             href="/"
             className={`transition-colors cursor-pointer ${
               pathname === "/"
-                ? "font-semibold border-b-2 border-black pb-1"
+                ? "font-semibold border-b-2 border-black"
                 : "text-gray-600 hover:text-black"
             }`}
           >
@@ -46,8 +54,9 @@ export default function Navbar() {
             Pricing
           </Link>
 
-          <Link
-            href="/contact"
+          <a
+            href="#"
+            onClick={openWishlist}
             className={`transition-colors cursor-pointer ${
               pathname === "/contact"
                 ? "font-semibold border-b-2 border-black pb-1"
@@ -55,7 +64,7 @@ export default function Navbar() {
             }`}
           >
             Contact
-          </Link>
+          </a>
 
           <Link
             href="/api"
@@ -72,7 +81,7 @@ export default function Navbar() {
         {/* Desktop Right Side Buttons */}
         <div className="hidden md:flex space-x-2 relative z-50">
           <Button
-            onClick={() => setWishlistOpen(true)}
+            onClick={openWishlist}
             variant="outline"
             className="rounded-full font-medium"
           >
@@ -164,7 +173,7 @@ export default function Navbar() {
             <div className="pt-4 space-y-3 border-t border-gray-200">
               <Button
                 onClick={() => {
-                  setWishlistOpen(true);
+                  openWishlist;
                   setMobileMenuOpen(false);
                 }}
                 variant="outline"
@@ -186,8 +195,6 @@ export default function Navbar() {
           </div>
         </>
       )}
-
-      <WishList open={wishlistOpen} onOpenChange={setWishlistOpen} />
     </header>
   );
 }
