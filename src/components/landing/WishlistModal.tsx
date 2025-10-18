@@ -98,29 +98,36 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
   const selectStyles = `${inputStyles} appearance-none cursor-pointer`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg max-h-[90vh] mx-4 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden flex flex-col">
-        {/* Header */}
-        <div className="p-6 border-b border-gray-200 flex items-start justify-between">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/80 backdrop-blur-sm p-4">
+      {/* Added padding for small screens */}
+      {/* Responsive width and height */}
+      <div className="relative w-full max-w-md sm:max-w-lg max-h-[95vh] sm:max-h-[90vh] mx-auto bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden flex flex-col">
+        {/* Header - Adjusted padding and text size */}
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex items-start justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
               Join the Waiting List
             </h2>
-            <p className="text-gray-600 mt-1">Get early access and updates.</p>
+            <p className="text-sm sm:text-base text-gray-600 mt-1">
+              Get early access and updates.
+            </p>
           </div>
           <button
             onClick={() => onOpenChange(false)}
-            className="p-2 hover:bg-gray-100 rounded-md transition-colors text-gray-600 hover:text-gray-900"
+            className="p-1 sm:p-2 hover:bg-gray-100 rounded-md transition-colors text-gray-600 hover:text-gray-900"
           >
             <XIcon className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
+        {/* Form - Adjusted padding and spacing */}
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 sm:p-6 space-y-4 overflow-y-auto"
+        >
           {/* Full Name */}
           <div>
-            <label className="block text-gray-700 mb-2 text-sm font-medium">
+            <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
               Full Name *
             </label>
             <input
@@ -135,7 +142,7 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
 
           {/* Email */}
           <div>
-            <label className="block text-gray-700 mb-2 text-sm font-medium">
+            <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
               Email Address *
             </label>
             <input
@@ -150,7 +157,7 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
 
           {/* Phone Number */}
           <div>
-            <label className="block text-gray-700 mb-2 text-sm font-medium">
+            <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
               Phone Number <span className="text-gray-500">(Optional)</span>
             </label>
             <input
@@ -162,10 +169,10 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
             />
           </div>
 
-          {/* Role + Company */}
+          {/* Role + Company - Stacks on small screens */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 mb-2 text-sm font-medium">
+              <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
                 Organization / Company
               </label>
               <input
@@ -177,7 +184,7 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2 text-sm font-medium">
+              <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
                 Professional Role / Title
               </label>
               <div className="relative">
@@ -185,16 +192,16 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
                   placeholder="Role"
                   value={formData.role}
                   onChange={(e) => handleInputChange("role", e.target.value)}
-                  className={selectStyles}
-                ></input>
+                  className={inputStyles} // Changed from selectStyles for consistency
+                />
               </div>
             </div>
           </div>
 
-          {/* Location + Team Size */}
+          {/* Location + Team Size - Stacks on small screens */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 mb-2 text-sm font-medium">
+              <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
                 Location <span className="text-gray-500">(Optional)</span>
               </label>
               <input
@@ -206,8 +213,8 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2 text-sm font-medium">
-                Firm Size / Team Size{" "}
+              <label className="block text-gray-700 mb-1.5 sm:mb-2 text-sm font-medium">
+                Firm Size / Team Size
                 <span className="text-gray-500">(Optional)</span>
               </label>
               <div className="relative">
@@ -240,30 +247,28 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
                   onChange={(e) =>
                     handleInputChange("bookDemo", e.target.checked)
                   }
-                  className="sr-only"
+                  className="sr-only peer" // Added peer class
                 />
                 <div
-                  className={`w-5 h-5 border-2 rounded transition-all duration-200 flex items-center justify-center ${
-                    formData.bookDemo
-                      ? "bg-blue-600 border-blue-600"
-                      : "bg-white border-gray-300"
-                  }`}
+                  className={`w-5 h-5 border-2 rounded transition-all duration-200 flex items-center justify-center 
+                             bg-white border-gray-300 
+                             peer-checked:bg-blue-600 peer-checked:border-blue-600`} // Simplified conditional styling using peer
                 >
-                  {formData.bookDemo && (
-                    <svg
-                      className="w-3 h-3 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="3"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  )}
+                  <svg
+                    className={`w-3 h-3 text-white transition-opacity duration-200 ${
+                      formData.bookDemo ? "opacity-100" : "opacity-0" // Control checkmark visibility
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="3"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
                 </div>
               </div>
               <span className="text-gray-700 font-medium text-sm">
@@ -277,7 +282,7 @@ const WishList = ({ open, onOpenChange }: WishListProps) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 disabled:text-gray-500 text-white font-semibold py-3 text-base rounded-md transition-all duration-200 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 disabled:text-gray-500 text-white font-semibold py-2.5 sm:py-3 text-sm sm:text-base rounded-md transition-all duration-200 disabled:cursor-not-allowed shadow-sm hover:shadow-md" // Adjusted padding and font size
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">

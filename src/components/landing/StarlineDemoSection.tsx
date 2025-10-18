@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ArrowRight } from "lucide-react"; // Assuming you have lucide-react installed
+import { ArrowRight } from "lucide-react";
 import { useModal } from "@/app/Providers";
 
 export default function StarlineDemoSection() {
@@ -10,11 +10,12 @@ export default function StarlineDemoSection() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center lg:justify-between">
         {/* Text Content */}
         <div className="lg:w-1/2 text-center lg:text-left mb-10 lg:mb-0">
-          <h2 className="text-4xl sm:text-5xl font-bold leading-tight mb-4">
-            See the <span className="text-[#cef2fb]">StarLine AI</span> platform
-            in action
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-thin leading-tight mb-4">
+            See the{" "}
+            <span className="text-[#cef2fb] font-semibold">StarLine AI</span>{" "}
+            platform in action
           </h2>
-          <p className="text-lg text-gray-300 mb-8">
+          <p className="text-base sm:text-lg text-gray-300 mb-8">
             Get a demo and discover how go-to-market teams use StarLine AI to
             supercharge their revenue engine and achieve full GTM Velocity.
           </p>
@@ -27,16 +28,16 @@ export default function StarlineDemoSection() {
           </button>
         </div>
 
-        {/* Geometric Shapes (Right Side) */}
-        <div className="lg:w-1/2 relative h-64 lg:h-80 flex items-center justify-center">
+        {/* Geometric Shapes (Right Side) - Hidden on mobile and tablet */}
+        <div className="hidden lg:flex lg:w-1/2 relative h-64 lg:h-80 items-center justify-center">
           {/* Main large cube outlines */}
-          <div className="absolute w-64 h-64 border border-purple-500/30 rotate-12 -right-16 top-0 lg:-right-4 lg:top-10 scale-125 origin-center hidden sm:block"></div>
-          <div className="absolute w-48 h-48 border border-purple-500/20 -right-4 -bottom-8 lg:right-20 lg:-bottom-20 rotate-45 scale-150 origin-center hidden sm:block"></div>
+          <div className="absolute w-64 h-64 border border-blue-500/30 rotate-12 -right-16 top-0 lg:-right-4 lg:top-10 scale-125 origin-center"></div>
+          <div className="absolute w-48 h-48 border border-blue-500/20 -right-4 -bottom-8 lg:right-20 lg:-bottom-20 rotate-45 scale-150 origin-center"></div>
 
           {/* Smaller overlapping lines */}
-          <div className="absolute w-32 h-32 border border-gray-600/50 -left-12 top-20 rotate-6 hidden sm:block"></div>
-          <div className="absolute w-24 h-24 border border-gray-700/50 -right-24 bottom-10 -rotate-12 hidden sm:block"></div>
-          <div className="absolute w-40 h-40 border border-purple-500/10 right-10 top-20 rotate-24 hidden sm:block"></div>
+          <div className="absolute w-32 h-32 border border-gray-600/50 -left-12 top-20 rotate-6"></div>
+          <div className="absolute w-24 h-24 border border-gray-700/50 -right-24 bottom-10 -rotate-12"></div>
+          <div className="absolute w-40 h-40 border border-purple-500/10 right-10 top-20 rotate-24"></div>
         </div>
       </div>
 

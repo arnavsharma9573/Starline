@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import BuildingChat from "./BuildingChat";
+import ListeningIndicator from "./ListeningIndicator";
 
 // --- (textBlocks and messages arrays remain the same) ---
 const textBlocks = [
@@ -30,24 +31,34 @@ const messages = [
   {
     speaker: "",
     text: "“Demolition order… ouch!”",
-    position: "top-[30%] left-[68%]", // Near Building 1
+    buildingId: 1, // Identify which building is speaking
+    position: "top-[30%] left-[68%]",
   },
   {
     speaker: "",
     text: "“Fined for bad wiring 😩”",
-    position: "top-[55%] left-[80%]", // Near Building 2
+    buildingId: 2,
+    position: "top-[55%] left-[80%]",
   },
   {
     speaker: "",
     text: "“Failed inspection, tenants gone!”",
-    position: "top-[52%] left-[50%]", // Near Building 3
+    buildingId: 3,
+    position: "top-[52%] left-[50%]",
   },
   {
     speaker: "",
     text: "“Never skipping codes again!”",
-    position: "top-[30%] left-[68%]", // Back to Building 1
+    buildingId: 1,
+    position: "top-[30%] left-[68%]",
   },
 ];
+
+const buildingPositions = {
+  1: "top-[30%] left-[68%]", // Position for Building 1's indicator
+  2: "top-[55%] left-[80%]", // Position for Building 2's indicator
+  3: "top-[58%] left-[56%]", // Position for Building 3's indicator
+};
 
 export default function HeroSection() {
   const [textIndex, setTextIndex] = useState(0);
@@ -62,19 +73,14 @@ export default function HeroSection() {
     return () => clearInterval(intervalId);
   }, []);
 
-  // --- 1. THIS HOOK WAS MISSING ---
-  // It waits for the line animations to finish (longest is 2.7s + 0.8s)
-  // before setting the chat to active.
   useEffect(() => {
     const chatStartTimer = setTimeout(() => {
       setIsChatActive(true);
-    }, 3500); // Wait 3.5 seconds
+    }, 3500);
 
     return () => clearTimeout(chatStartTimer);
-  }, []); // This runs only once on component mount
+  }, []);
 
-  // --- 2. THIS IS THE ONLY HOOK NEEDED FOR THE CHAT ---
-  // It handles the message cycling, but only after `isChatActive` becomes true.
   useEffect(() => {
     if (!isChatActive) return;
 
@@ -83,24 +89,38 @@ export default function HeroSection() {
     }, 3000);
 
     return () => clearInterval(messageInterval);
-  }, [isChatActive]); // This effect re-runs when isChatActive changes
+  }, [isChatActive]);
 
   const currentMessage = messages[messageIndex];
+  const currentSpeakerBuildingId = currentMessage.buildingId;
   const currentText = textBlocks[textIndex];
 
   return (
     <main className="relative w-full items-center justify-center text-white">
       {/* This conditional rendering is now correct */}
       {isChatActive && (
-        <div
-          key={messageIndex}
-          className={`absolute z-20 hidden md:block ${currentMessage.position}`}
-        >
-          <BuildingChat
-            speaker={currentMessage.speaker}
-            text={currentMessage.text}
-          />
-        </div>
+        <>
+          {Object.entries(buildingPositions).map(([id, position]) => {
+            const buildingIdNum = parseInt(id, 10);
+            return (
+              <div
+                key={`indicator-${buildingIdNum}-${messageIndex}`} // Ensure key changes
+                className={`absolute z-20 hidden md:block ${position}`}
+              >
+                {buildingIdNum === currentSpeakerBuildingId ? (
+                  // Show chat bubble if this building is speaking
+                  <BuildingChat
+                    speaker={currentMessage.speaker}
+                    text={currentMessage.text}
+                  />
+                ) : (
+                  // Show listening dots if another building is speaking
+                  <ListeningIndicator />
+                )}
+              </div>
+            );
+          })}
+        </>
       )}
 
       {/* --- (The rest of your JSX remains exactly the same) --- */}
@@ -110,13 +130,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="absolute top-[35%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left"
+          className="absolute top-[35%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 1.8 }}
-          className="absolute top-[35%] left-[64%] w-[1px] h-24 bg-white/80 origin-top"
+          className="absolute top-[35%] left-[64%] w-[1px] h-24 bg-white/80 origin-top hidden md:block"
         />
       </>
       <>
@@ -125,13 +145,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 2.1 }}
-          className="absolute top-[60%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left"
+          className="absolute top-[60%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 2.4 }}
-          className="absolute top-[60%] left-[75%] w-[1px] h-28 bg-white/80 origin-top"
+          className="absolute top-[60%] left-[75%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
         />
       </>
 
@@ -140,11 +160,11 @@ export default function HeroSection() {
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 0.8, delay: 2.7 }}
-        className="absolute top-[70%] left-[56%] w-[1px] h-28 bg-white/80 origin-top"
+        className="absolute top-[70%] left-[56%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
       />
 
       {/* Text Section */}
-      <div className="max-w-7xl mx-auto mt-16 flex flex-col text-neutral-100 space-y-2 px-4">
+      <div className="max-w-7xl mx-auto mt-12 md:mt-16 flex flex-col text-neutral-100 space-y-2 px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

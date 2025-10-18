@@ -10,6 +10,7 @@ export default function Footer() {
         <div className="mb-5">
           <a href="/" className="flex items-center">
             <Image src="/LogoBlack.png" alt="logo" width={200} height={42} />
+            
           </a>
           <p className="text-sm text-gray-600 pt-6">Powered By</p>
           <p className="text-lg font-medium text-gray-800">Dexter Platforms</p>
@@ -25,7 +26,7 @@ export default function Footer() {
             <div className="flex space-x-3 mb-4">
               {/* Gmail Icon */}
               <a
-                href="#"
+                href="mailto:business@thedexter.co.in"
                 aria-label="Gmail"
                 className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors"
               >
@@ -34,7 +35,7 @@ export default function Footer() {
 
               {/* LinkedIn Icon */}
               <a
-                href="#"
+                href="https://www.linkedin.com/company/starline-ai/?viewAsMember=true"
                 aria-label="LinkedIn"
                 className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors"
               >

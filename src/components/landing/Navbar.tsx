@@ -17,9 +17,9 @@ export default function Navbar() {
 
   return (
     <header className="max-w-7xl mx-auto">
-      <div className="container mx-auto max-w-[90rem] flex h-16 items-center justify-between">
+      <div className="container mx-auto  md:max-w-[90rem] flex h-16 items-center justify-between">
         {/* Logo */}
-        <div className="relative z-50">
+        <div className="relative z-50 ml-5 md:ml-0">
           <a href="/" className="flex items-center mt-2">
             <Image
               src={isHomePage ? "/logofinal.png" : "/LogoBlack.png"}
@@ -101,7 +101,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-white p-2 relative z-50"
+          className="md:hidden text-white p-2 relative z-50 mr-5"
         >
           {mobileMenuOpen ? (
             <X className="h-6 w-6" />
@@ -173,7 +173,7 @@ export default function Navbar() {
             <div className="pt-4 space-y-3 border-t border-gray-200">
               <Button
                 onClick={() => {
-                  openWishlist;
+                  openWishlist();
                   setMobileMenuOpen(false);
                 }}
                 variant="outline"
