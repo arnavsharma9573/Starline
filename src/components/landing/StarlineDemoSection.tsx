@@ -6,7 +6,7 @@ import { useModal } from "@/app/Providers";
 export default function StarlineDemoSection() {
   const { openWishlist } = useModal();
   return (
-    <section className="bg-neutral-900 text-white py-16 sm:py-24 relative overflow-hidden">
+    <section className="bg-neutral-900 text-white py-16 md:py-24 md:mt-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center lg:justify-between">
         {/* Text Content */}
         <div className="lg:w-1/2 text-center lg:text-left mb-10 lg:mb-0">
