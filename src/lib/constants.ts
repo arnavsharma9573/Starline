@@ -524,3 +524,130 @@ export const mockApiResponse = {
     },
   ],
 };
+
+export const mockCodeReport = {
+  reportUrl: "/Compliance-Audit-Report.pdf",
+  riskScore: 12, // Example score
+};
+
+export const mockApiResponsePlus = {
+  markedUpImageUrl: "/final_drawing_2.jpeg", // Naya output image 'Plus' ke liye
+  outputPdfUrl: "/architecture_review_annotated.pdf", // Naya report PDF 'Plus' ke liye
+  notes: [
+    {
+      id: 1,
+      description:
+        "Bedroom dimensions potentially not meeting minimum standards. Location: 'Baba Ji Room'",
+      recommendation:
+        "Review and confirm compliance with NBC recommendations for minimum room sizes.",
+      confidence: 0.9,
+    },
+    {
+      id: 2,
+      description:
+        "Bathroom/toilet sizing and layout may not be optimal for functionality. Location: Toilet in 'Master Bedroom'",
+      recommendation:
+        "Verify compliance with space and accessibility guidelines.",
+      confidence: 0.9,
+    },
+    {
+      id: 3,
+      description:
+        "Corridor width seems narrow for functional requirements. Location: 'Passage'",
+      recommendation:
+        "Ensure corridors meet minimum width requirements for safe passage.",
+      confidence: 0.9,
+    },
+    {
+      id: 4,
+      description:
+        "Door swing into narrow corridor could obstruct movement. Location: '10'-5\" wide'",
+      recommendation:
+        "Change door swing direction or adjust position to prevent obstruction.",
+      confidence: 0.7,
+    },
+    {
+      id: 5,
+      description:
+        "Text and dimensions overlap, affecting readability. Location: 'Dimensions'",
+      recommendation:
+        "Adjust text placement to avoid overlap and improve clarity.",
+      confidence: 0.7, // Confidence nahi diya tha, maine 0.7 assume kiya
+    },
+    {
+      id: 6,
+      description:
+        "Staircase rise/run does not appear reasonable. Location: 'No. of steps- 23'",
+      recommendation:
+        "Reevaluate stair dimensions to conform to ergonomic standards.",
+      confidence: 0.7,
+    },
+    {
+      id: 7,
+      description:
+        "North arrow missing, affects orientation understanding. Location: 'Drawing'",
+      recommendation: "Add a north arrow to all drawings for clarity.",
+      confidence: 0.9,
+    },
+    {
+      id: 8,
+      description:
+        "Handrail positions and design potentially incorrect for safety. Location: 'Staircase'",
+      recommendation: "Review and ensure handrails meet safety requirements.",
+      confidence: 0.7, // Confidence nahi diya tha, maine 0.7 assume kiya
+    },
+    {
+      id: 9,
+      description:
+        "Room labels overlap furniture and walls. Location: 'Baba Ji Room'",
+      recommendation: "Adjust placement of room labels for clarity.",
+      confidence: 0.9,
+    },
+    {
+      id: 10,
+      description:
+        "Bathroom/toilet layout may not be optimal. Location: A (Master Bedroom)",
+      recommendation: "Review layout against standards.", // Recommendation infer kiya hai
+      confidence: 0.3,
+    },
+    {
+      id: 11,
+      description: "Corridor width seems narrow. Location: A (Passage)",
+      recommendation: "Verify width against building codes.",
+      confidence: 0.3,
+    },
+    {
+      id: 12,
+      description:
+        "Staircase location may impact circulation. Location: A (Staircase)",
+      recommendation: "Review circulation flow.",
+      confidence: 0.3,
+    },
+    {
+      id: 13,
+      description: "Door swing obstructs corridor. Location: D (10'-5\" wide)",
+      recommendation: "Consider reversing the door swing.",
+      confidence: 0.3,
+    },
+    {
+      id: 14,
+      description:
+        "Staircase rise/run not reasonable. Location: B (No. of steps)",
+      recommendation: "Check calculations for rise and run.",
+      confidence: 0.3,
+    },
+    {
+      id: 15,
+      description: "North arrow missing. Location: C (Drawing)",
+      recommendation: "Add North arrow for orientation.",
+      confidence: 0.3,
+    },
+    {
+      id: 16,
+      description:
+        "Handrail positions potentially incorrect. Location: B (Staircase)",
+      recommendation: "Ensure handrail height and design meet safety codes.",
+      confidence: 0.3,
+    },
+  ],
+};

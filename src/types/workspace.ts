@@ -4,12 +4,17 @@ export interface CheckpointCategory {
 }
 
 export type Mode = "base" | "plus" | "code";
-export type ProcessingState = "idle" | "processing" | "complete";
+export type ProcessingState =
+  | "idle"
+  | "processing"
+  | "calculating"
+  | "complete";
 
 export interface AnalysisIssue {
   id: number;
   confidence: number;
   description: string;
-  location: number[] | number[][];
+  location?: number[] | number[][];
   recommendation: string;
+
 }

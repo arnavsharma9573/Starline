@@ -47,8 +47,6 @@ export default function ComplianceHero() {
           </div>
         </div>
       </div>
-      {/* Pain Points Section */}
-      {/* Adjusted padding and margin */}
       <div className="bg-[#ebfbff] bg-dotted-pattern [background-size:1rem_1rem] mt-16 lg:mt-24 py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
