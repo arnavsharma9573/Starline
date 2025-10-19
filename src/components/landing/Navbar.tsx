@@ -11,9 +11,9 @@ import { useModal } from "@/app/Providers";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const { openWishlist } = useModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isHomePage = pathname === "/";
 
   return (
     <header className="max-w-7xl mx-auto">

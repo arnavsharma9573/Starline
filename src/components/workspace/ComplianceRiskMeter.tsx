@@ -1,12 +1,13 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Download } from "lucide-react";
+import { Download, CheckCircle, Loader2 } from "lucide-react";
 
+// Helper functions (Subtle Colors)
 const getColor = (score: number) => {
-  if (score <= 15) return "#22c55e"; // Green
-  if (score <= 45) return "#f97316"; // Orange
-  return "#ef4444"; // Red
+  if (score <= 15) return "#3b82f6"; // Blue-500
+  if (score <= 45) return "#14b8a6"; // Teal-500
+  return "#6b7280"; // Gray-500
 };
 
 const getRiskText = (score: number) => {
@@ -15,233 +16,168 @@ const getRiskText = (score: number) => {
   return "High Risk: Rejection Likely";
 };
 
+// Component Props
 interface ComplianceRiskMeterProps {
   score: number;
-  isProcessing?: boolean;
-  processedCheckpoints?: number;
-  totalCheckpoints?: number;
+  isProcessing: boolean;
+  isPaused?: boolean; // Add this
+  processedCheckpoints: number;
+  totalCheckpoints: number;
   reportUrl?: string | null;
 }
 
+// Internal stages for the animation sequence
+type MeterStage = "idle" | "processing" | "dialing" | "finished";
+
 export default function ComplianceRiskMeter({
   score,
-  isProcessing = true,
-  processedCheckpoints = 0,
-  totalCheckpoints = 100,
+  isProcessing,
+  isPaused = false, // Add default value
+  processedCheckpoints,
+  totalCheckpoints,
   reportUrl = null,
 }: ComplianceRiskMeterProps) {
-  const [displayScore, setDisplayScore] = useState(50);
-  const [needlePosition, setNeedlePosition] = useState(50);
+  const [stage, setStage] = useState<MeterStage>("idle");
 
+  // Effect to manage the stages based on parent state
   useEffect(() => {
-    if (isProcessing) {
-      // Swinging animation while processing
-      let swingStep = 0;
-      const swingInterval = setInterval(() => {
-        swingStep += 0.05;
-        // Sine wave oscillation between 20 and 80
-        const swing = Math.sin(swingStep) * 30 + 50;
-        setNeedlePosition(swing);
-      }, 50);
-
-      return () => clearInterval(swingInterval);
-    } else {
-      // Animate to final score
-      const duration = 1500;
-      const steps = 60;
-      let currentStep = 0;
-      const startValue = needlePosition;
-      const valueRange = score - startValue;
-
-      const finalInterval = setInterval(() => {
-        currentStep++;
-        const progress = currentStep / steps;
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const finalValue = startValue + valueRange * easeOut;
-
-        setNeedlePosition(finalValue);
-        setDisplayScore(finalValue);
-
-        if (currentStep >= steps) {
-          clearInterval(finalInterval);
-          setNeedlePosition(score);
-          setDisplayScore(score);
-        }
-      }, duration / steps);
-
-      return () => clearInterval(finalInterval);
+    if (isProcessing && !isPaused) {
+      if (processedCheckpoints === 0) {
+        setStage("processing");
+      } else {
+        setStage("dialing");
+      }
+    } else if (isPaused) {
+      setStage("dialing"); // Keep showing dial when paused
+    } else if (!isProcessing && processedCheckpoints > 0) {
+      setStage("finished");
     }
-  }, [isProcessing, score]);
+  }, [isProcessing, isPaused, processedCheckpoints]);
 
-  const progressPercentage =
-    totalCheckpoints > 0 ? (processedCheckpoints / totalCheckpoints) * 100 : 0;
-
-  const currentColor = getColor(isProcessing ? needlePosition : displayScore);
+  const dialProgress =
+    totalCheckpoints > 0 ? processedCheckpoints / totalCheckpoints : 0;
+  const circumference = 2 * Math.PI * 15.9155; // SVG radius
 
   return (
-    <div className="flex flex-col items-center gap-8 text-center w-full max-w-2xl mx-auto">
-      {/* Horizontal Meter */}
-      <div className="w-full space-y-4">
-        {/* Labels */}
-        <div className="flex justify-between text-xs font-semibold uppercase tracking-wider">
-          <span className="text-green-600">Low Risk</span>
-          <span className="text-orange-500">Medium Risk</span>
-          <span className="text-red-500">High Risk</span>
-        </div>
-
-        {/* Meter Track */}
-        <div className="relative h-8 bg-gradient-to-r from-green-500 via-orange-500 to-red-500 rounded-full">
-          {/* Animated Needle/Indicator */}
+    <div className="flex flex-col items-center gap-6 text-center w-full max-w-xs mx-auto p-6 bg-white rounded-xl shadow-lg">
+      <AnimatePresence mode="wait">
+        {/* Stage 1: Initial Processing */}
+        {stage === "processing" && (
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
-            style={{ left: `${needlePosition}%` }}
+            key="processing"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-3"
           >
-            {/* Vertical Line */}
-            <div className="flex flex-col items-center">
-              <div className="w-1 h-12 bg-gray-900 rounded-full shadow-lg" />
-              {/* Indicator Circle */}
-              <motion.div
-                className="w-6 h-6 bg-gray-900 rounded-full shadow-xl border-4 border-white -mt-3"
-                animate={{
-                  scale: isProcessing ? [1, 1.2, 1] : 1,
-                }}
-                transition={{
-                  duration: 0.6,
-                  repeat: isProcessing ? Infinity : 0,
-                  ease: "easeInOut",
-                }}
-              />
-            </div>
-          </motion.div>
-
-          {/* Tick Marks */}
-          <div className="absolute inset-0 flex justify-between items-center px-2">
-            {[0, 15, 45, 100].map((tick, i) => (
-              <div
-                key={tick}
-                className="w-0.5 h-4 bg-white/40 rounded-full"
-                style={{ marginLeft: i === 0 ? 0 : "auto" }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Percentage Labels */}
-        <div className="flex justify-between text-xs text-gray-500">
-          <span>0%</span>
-          <span>15%</span>
-          <span>45%</span>
-          <span>100%</span>
-        </div>
-      </div>
-
-      {/* Score Display */}
-      <motion.div
-        className="space-y-4"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 1 }}
-      >
-        <motion.div className="relative">
-          <motion.h3
-            className="text-6xl font-bold tabular-nums"
-            style={{ color: currentColor }}
-            animate={{
-              scale: !isProcessing ? [1, 1.1, 1] : 1,
-            }}
-            transition={{
-              duration: 0.5,
-            }}
-          >
-            {isProcessing ? "..." : `${Math.round(displayScore)}%`}
-          </motion.h3>
-
-          {/* Animated Background Glow */}
-          <motion.div
-            className="absolute inset-0 -z-10 rounded-full blur-2xl"
-            style={{ backgroundColor: currentColor }}
-            animate={{
-              opacity: [0.2, 0.4, 0.2],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
-
-        <motion.p
-          className="text-xl font-semibold"
-          style={{ color: currentColor }}
-        >
-          {isProcessing ? "Analyzing Compliance..." : getRiskText(displayScore)}
-        </motion.p>
-
-        {/* Processing Status */}
-        {isProcessing && (
-          <motion.div
-            className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <p className="text-sm text-gray-600">
-              Processed {processedCheckpoints} of {totalCheckpoints} checkpoints
-            </p>
-            <div className="flex gap-2 justify-center">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: currentColor }}
-                  animate={{
-                    opacity: [0.3, 1, 0.3],
-                    scale: [1, 1.5, 1],
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    repeat: Infinity,
-                    delay: i * 0.2,
-                  }}
-                />
-              ))}
-            </div>
+            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+            <p className="text-lg font-semibold text-gray-700">Processing...</p>
+            <p className="text-sm text-gray-500">Preparing analysis</p>
           </motion.div>
         )}
 
-        {/* Risk Description */}
-        {!isProcessing && (
+        {/* Stage 2: Dialing Checkpoints */}
+        {stage === "dialing" && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="space-y-4"
+            key="dialing"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-3"
           >
-            <p className="text-sm text-gray-600 max-w-md mx-auto">
-              {displayScore <= 15 &&
-                "Compliance standards met. Ready for submission."}
-              {displayScore > 15 &&
-                displayScore <= 45 &&
-                "Some issues detected. Review recommended."}
-              {displayScore > 45 && "Critical issues found. Revision required."}
+            <div className="relative w-28 h-28">
+              <svg
+                viewBox="0 0 36 36"
+                className="w-full h-full transform -rotate-90"
+              >
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="15.9155"
+                  fill="none"
+                  stroke="#e5e7eb"
+                  strokeWidth="2.5"
+                />
+                <motion.circle
+                  cx="18"
+                  cy="18"
+                  r="15.9155"
+                  fill="none"
+                  stroke="#3b82f6"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  animate={{
+                    strokeDasharray: `${
+                      dialProgress * circumference
+                    } ${circumference}`,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                {/* Display processedCheckpoints directly */}
+                <span className="text-2xl font-bold text-gray-900 tabular-nums">
+                  {processedCheckpoints}
+                </span>
+                <span className="text-xs text-gray-500">
+                  /{totalCheckpoints}
+                </span>
+              </div>
+            </div>
+            <p className="text-lg font-semibold text-gray-700">
+              Checking Compliance...
             </p>
+            <p className="text-sm text-gray-500">
+              Running point {processedCheckpoints} of {totalCheckpoints}
+            </p>
+          </motion.div>
+        )}
 
-            {/* Download Button */}
+        {/* Stage 3: Finished */}
+        {stage === "finished" && (
+          <motion.div
+            key="finished"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <CheckCircle
+              className="w-12 h-12"
+              style={{ color: getColor(score) }}
+            />
+            <h3
+              className="text-4xl font-bold tabular-nums"
+              style={{ color: getColor(score) }}
+            >
+              {score.toFixed(0)}%
+            </h3>
+            <p
+              className="text-lg font-semibold"
+              style={{ color: getColor(score) }}
+            >
+              {getRiskText(score)}
+            </p>
+            <p className="text-sm text-gray-600 max-w-xs">
+              {score <= 15 && "Compliance standards met."}
+              {score > 15 && score <= 45 && "Some issues detected."}
+              {score > 45 && "Critical issues found."}
+            </p>
             {reportUrl && (
-              <motion.a
+              <a
                 href={reportUrl}
                 download="Compliance-Audit-Report.pdf"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="inline-flex items-center gap-2 bg-black text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 bg-black text-white font-semibold px-6 py-2.5 rounded-lg shadow hover:bg-gray-800 transition-colors"
               >
-                <Download className="w-5 h-5" /> Download Audit Report
-              </motion.a>
+                <Download className="w-4 h-4" /> Download Audit Report
+              </a>
             )}
           </motion.div>
         )}
-      </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

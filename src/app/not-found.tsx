@@ -21,7 +21,7 @@ export default function NotFound() {
 
       {/* Subheading */}
       <p className="mt-6 text-lg text-gray-700 dark:text-gray-300 max-w-lg">
-        We are a small and growing consulting firm with big ideas.
+        We are a small indian ai startup with big ideas.
       </p>
 
       {/* Learn More Button */}

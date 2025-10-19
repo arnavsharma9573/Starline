@@ -108,7 +108,7 @@ export default function PricingPage() {
           className="mt-2 flex items-center justify-center mr-5"
         >
           <Image
-            src="/pricing.png"
+            src="/Pricing.png"
             alt="Contact Form"
             width={300}
             height={150}

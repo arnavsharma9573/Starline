@@ -651,3 +651,31 @@ export const mockApiResponsePlus = {
     },
   ],
 };
+
+export const checkpointQuestions: Record<
+  string,
+  { checkpoint: number; question: string }[]
+> = {
+  code: [
+    {
+      checkpoint: 52, // Corresponds roughly to "Staircase width meets NBC requirements."
+      question: "Where do each main fire exits and stair discharges lead?",
+    },
+    // {
+    //   checkpoint: 56, // Corresponds roughly to "Minimum bedroom area per NBC."
+    //   question:
+    //     "What occupancy type does this building fall under (e.g., Residential A-2, A-4, Commercial E)? This affects minimum room sizes.",
+    // },
+    // {
+    //   checkpoint: 78, // Corresponds roughly to "Foundation type referenced..."
+    //   question:
+    //     "Has a soil investigation report been prepared for the site, and what foundation type is recommended?",
+    // },
+    // {
+    //   checkpoint: 87, // Corresponds roughly to "Number of emergency exits per floor."
+    //   question:
+    //     "Based on the floor area and occupant load, what is the minimum number of exits required per floor as per NBC Part 4?",
+    // },
+  ],
+  // You can add questions for 'base' and 'plus' modes here if needed
+};
