@@ -91,6 +91,11 @@ export default function HeroSection() {
     return () => clearInterval(messageInterval);
   }, [isChatActive]);
 
+  const handleWatchDemo = () => {
+    const videoSection = document.getElementById("video-demo-section");
+    videoSection?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const currentMessage = messages[messageIndex];
   const currentSpeakerBuildingId = currentMessage.buildingId;
   const currentText = textBlocks[textIndex];
@@ -130,13 +135,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="absolute top-[35%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
+          className="absolute top-[39%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 1.8 }}
-          className="absolute top-[35%] left-[64%] w-[1px] h-24 bg-white/80 origin-top hidden md:block"
+          className="absolute top-[39%] left-[64%] w-[1px] h-24 bg-white/80 origin-top hidden md:block"
         />
       </>
       <>
@@ -145,13 +150,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 2.1 }}
-          className="absolute top-[60%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
+          className="absolute top-[63%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 2.4 }}
-          className="absolute top-[60%] left-[75%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
+          className="absolute top-[63%] left-[75%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
         />
       </>
 
@@ -160,7 +165,7 @@ export default function HeroSection() {
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 0.8, delay: 2.7 }}
-        className="absolute top-[70%] left-[56%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
+        className="absolute top-[76%] left-[58%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
       />
 
       {/* Text Section */}
@@ -199,7 +204,10 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-4"
         >
-          <Button className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300">
+          <Button
+            onClick={handleWatchDemo}
+            className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300"
+          >
             Watch Demo
           </Button>
         </motion.div>
