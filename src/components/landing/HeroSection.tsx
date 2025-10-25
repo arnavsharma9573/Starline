@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import BuildingChat from "./BuildingChat";
 import ListeningIndicator from "./ListeningIndicator";
+import { useModal } from "@/app/Providers";
 
 // --- (textBlocks and messages arrays remain the same) ---
 const textBlocks = [
@@ -64,6 +65,7 @@ export default function HeroSection() {
   const [textIndex, setTextIndex] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
   const [isChatActive, setIsChatActive] = useState(false);
+  const { openWishlist } = useModal();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -135,13 +137,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="absolute top-[39%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
+          className="absolute top-[35%] left-[64%] w-16 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 1.8 }}
-          className="absolute top-[39%] left-[64%] w-[1px] h-24 bg-white/80 origin-top hidden md:block"
+          className="absolute top-[35%] left-[64%] w-[1px] h-24 bg-white/80 origin-top hidden md:block"
         />
       </>
       <>
@@ -150,13 +152,13 @@ export default function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 2.1 }}
-          className="absolute top-[63%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
+          className="absolute top-[60%] left-[75%] w-24 h-[1px] bg-white/80 rotate-0 origin-left hidden md:block"
         />
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.8, delay: 2.4 }}
-          className="absolute top-[63%] left-[75%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
+          className="absolute top-[60%] left-[75%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
         />
       </>
 
@@ -165,7 +167,7 @@ export default function HeroSection() {
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 0.8, delay: 2.7 }}
-        className="absolute top-[76%] left-[58%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
+        className="absolute top-[70%] left-[55%] w-[1px] h-28 bg-white/80 origin-top hidden md:block"
       />
 
       {/* Text Section */}
@@ -205,10 +207,12 @@ export default function HeroSection() {
           className="mt-4"
         >
           <Button
-            onClick={handleWatchDemo}
+            onClick={() => {
+              openWishlist();
+            }}
             className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300"
           >
-            Watch Demo
+            Join Waiting List
           </Button>
         </motion.div>
       </div>

@@ -1,8 +1,13 @@
+"use client"
 import React from "react";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 export default function ComplianceHero() {
+  const handleWatchDemo = () => {
+    const videoSection = document.getElementById("video-demo-section");
+    videoSection?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="py-1 md:py-16 bg-white">
       {/* Ensure white background */}
@@ -37,7 +42,7 @@ export default function ComplianceHero() {
             </div>
             {/* Align button center on mobile, end on large */}
             <div className="flex justify-center lg:justify-end">
-              <button className="bg-black hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg flex items-center px-4 py-2 gap-2">
+              <button onClick={handleWatchDemo} className="bg-black hover:bg-gray-800 text-white rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg flex items-center px-4 py-2 gap-2">
                 Watch Demo
                 <span className="bg-white text-black rounded-full w-6 h-6 flex items-center justify-center text-xs">
                   <ChevronRight className="w-4 h-4" />
