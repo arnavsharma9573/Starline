@@ -206,11 +206,14 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-4"
         >
+          <Button onClick={handleWatchDemo} className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300 hidden md:block">
+            Watch Demo
+          </Button>
           <Button
             onClick={() => {
               openWishlist();
             }}
-            className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300"
+            className="bg-white text-[#747C86] font-bold rounded-xl w-[10rem] hover:bg-gray-100 transition-all duration-300 block md:hidden"
           >
             Join Waiting List
           </Button>
